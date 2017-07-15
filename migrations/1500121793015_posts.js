@@ -12,7 +12,7 @@ exports.up = (pgm) => {
             notNull: true
         },
         created_at: {
-            type: 'timestamp',
+            type: 'integer',
             notNull: true
         }
     })
