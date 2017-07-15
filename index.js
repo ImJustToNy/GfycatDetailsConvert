@@ -27,21 +27,21 @@ function checkForNewPosts () {
         }
 
         var posts = res.rows.map(post => post.post_id)
-    })
 
-    r.getNew('all').forEach(post => {
-        if (post.domain == 'gfycat.com' && ~post.url.indexOf('gifs/detail/') && !posts.includes(post.id)) {
-            var proper = post.url.replace('gifs/detail/', '')
+        r.getNew('all').forEach(post => {
+            if (post.domain == 'gfycat.com' && ~post.url.indexOf('gifs/detail/') && !posts.includes(post.id)) {
+                var proper = post.url.replace('gifs/detail/', '')
 
-            post.reply('Proper [Gfycat URL](' + proper + ') \n\n' + '^^^I\'m ^^^just ^^^a ^^^bot, ^^^bleep, ^^^bloop. ^^^If ^^^you ^^^want ^^^to ^^^report ^^^my ^^^bad ^^^behaviour, ^^^please ^^^reach ^^^my ^^^master: ^^^/u/ParrotCraft').then(reply => {
-                
-                client.query('INSTERT INTO posts (post_id, comment_id, created_at) VALUES ($1, $2, $3)', [post.id, reply.id, +new Date], function (err) {
-                    throw new Error('Failed to instert post into database')
+                post.reply('Proper [Gfycat URL](' + proper + ') \n\n' + '^^^I\'m ^^^just ^^^a ^^^bot, ^^^bleep, ^^^bloop. ^^^If ^^^you ^^^want ^^^to ^^^report ^^^my ^^^bad ^^^behaviour, ^^^please ^^^reach ^^^my ^^^master: ^^^/u/ParrotCraft').then(reply => {
+                    
+                    client.query('INSTERT INTO posts (post_id, comment_id, created_at) VALUES ($1, $2, $3)', [post.id, reply.id, +new Date], function (err) {
+                        throw new Error('Failed to instert post into database')
+                    })
                 })
-            })
 
-            console.log('Before: ' + post.url + ', after: ' + proper)
-        }
+                console.log('Before: ' + post.url + ', after: ' + proper)
+            }
+        })
     })
 }
 
