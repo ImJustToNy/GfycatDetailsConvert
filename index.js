@@ -19,8 +19,7 @@ var client = new Client(process.env.DATABASE_URL + '?ssl=true')
 
 client.connect()
 
-function checkForNewPosts () {
-    
+function checkForNewPosts () {   
     client.query('SELECT * FROM posts', (err, res) => {
         if (err) {
             throw new Error('There was an error while trying to fetch posts')
@@ -33,9 +32,11 @@ function checkForNewPosts () {
                 var proper = post.url.replace('gifs/detail/', '')
 
                 post.reply('Proper [Gfycat URL](' + proper + ') \n\n' + '^^^I\'m ^^^just ^^^a ^^^bot, ^^^bleep, ^^^bloop. ^^^If ^^^you ^^^want ^^^to ^^^report ^^^my ^^^bad ^^^behaviour, ^^^please ^^^reach ^^^my ^^^master: ^^^/u/ParrotCraft').then(reply => {
-                    
+
                     client.query('INSTERT INTO posts (post_id, comment_id, created_at) VALUES ($1, $2, $3)', [post.id, reply.id, +new Date], function (err) {
-                        throw new Error('Failed to instert post into database')
+                        if (err) {
+                            throw new Error('Failed to instert post into database')
+                        }
                     })
                 })
 
