@@ -35,7 +35,7 @@ function checkForNewPosts () {
 
                     client.query('INSTERT INTO posts (post_id, comment_id, created_at) VALUES ($1, $2, $3)', [post.id, reply.id, +new Date], function (err) {
                         if (err) {
-                            throw new Error('Failed to instert post into database')
+                            console.log('There was an error while trying to push new post into database', err)
                         }
                     })
                 })
