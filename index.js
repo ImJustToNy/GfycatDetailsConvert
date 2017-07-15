@@ -32,7 +32,6 @@ function checkForNewPosts () {
                 var proper = post.url.replace('gifs/detail/', '')
 
                 post.reply('Proper [Gfycat URL](' + proper + ') \n\n' + '^^^I\'m ^^^just ^^^a ^^^bot, ^^^bleep, ^^^bloop. ^^^If ^^^you ^^^want ^^^to ^^^report ^^^my ^^^bad ^^^behaviour, ^^^please ^^^reach ^^^my ^^^master: ^^^/u/ParrotCraft').then(reply => {
-
                     client.query('INSERT INTO posts (post_id, comment_id) VALUES ($1, $2)', [post.id, reply.id], function (err) {
                         if (err) {
                             console.log('There was an error while trying to push new post into database', err)
