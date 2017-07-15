@@ -1,0 +1,15 @@
+{
+  "name": "GfycatDetailsConvert",
+  "version": "1.0.0",
+  "description": "Simply posts comment to proper gfycat URL",
+  "main": "index.js",
+  "repository": "https://github.com/ImJustToNy/GfycatDetailsConvert",
+  "author": "ToNy <imtony@protonmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "node-pg-migrate": "^2.3.0",
+    "pg": "^6.4.1",
+    "snoowrap": "^1.14.1"
+  }
+}
