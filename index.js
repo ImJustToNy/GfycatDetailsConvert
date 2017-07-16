@@ -23,8 +23,6 @@ var client = new Client(process.env.DATABASE_URL + '?ssl=true')
 client.connect()
 
 function checkForNewPosts () {
-  console.log(chalk.gray('Looking for new posts...'))
-
   client.query('SELECT * FROM posts', (err, res) => {
     if (err) {
       throw new Error('There was an error while trying to fetch posts')
