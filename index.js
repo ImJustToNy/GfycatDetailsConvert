@@ -31,7 +31,7 @@ function checkForNewPosts () {
       if (post.domain === 'gfycat.com' && ~post.url.indexOf('gifs/detail/') && !posts.includes(post.id)) {
         var proper = post.url.replace('gifs/detail/', '')
 
-        post.reply('[Proper Gfycat URL](' + proper + ') \n\n' + '^^^I\'m ^^^just ^^^a ^^^bot, ^^^bleep, ^^^bloop. ^^^If ^^^you ^^^want ^^^to ^^^report ^^^my ^^^bad ^^^behaviour, ^^^please ^^^reach ^^^my ^^^master: ^^^/u/ParrotCraft').then(reply => {
+        post.reply('[Proper Gfycat URL](' + proper + ') \n\n' + '^^^I\'m ^^^just ^^^a ^^^bot, ^^^bleep, ^^^bloop. [^^^[Why?]](https://gist.github.com/ImJustToNy/cb3457e36f22123eb93864f0af639da3) [^^^[Source ^^^code]](https://github.com/ImJustToNy/GfycatDetailsConvert) ^^^This ^^^bot ^^^is ^^^a ^^^merge ^^^of ^^^2 ^^^bots] - /u/ and /u/GfycatDetailsConvert').then(reply => {
           client.query('INSERT INTO posts (post_id, comment_id) VALUES ($1, $2)', [post.id, reply.id], function (err) {
             if (err) {
               console.log('There was an error while trying to push new post into database', err)
