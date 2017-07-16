@@ -9,8 +9,6 @@
   "dependencies": {
     "chalk": "^2.0.1",
     "dotenv": "^4.0.0",
-    "node-pg-migrate": "^2.3.0",
-    "pg": "^6.4.1",
     "snoowrap": "^1.14.1"
   },
   "devDependencies": {
