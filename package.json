@@ -7,6 +7,7 @@
   "author": "ToNy <imtony@protonmail.com>",
   "license": "MIT",
   "dependencies": {
+    "chalk": "^2.0.1",
     "dotenv": "^4.0.0",
     "node-pg-migrate": "^2.3.0",
     "pg": "^6.4.1",
