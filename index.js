@@ -23,29 +23,23 @@ var client = new Client(process.env.DATABASE_URL + '?ssl=true')
 client.connect()
 
 function checkForNewPosts () {
-  client.query('SELECT * FROM posts', (err, res) => {
-    if (err) {
-      throw new Error('There was an error while trying to fetch posts')
-    }
+  r.getNew('all').forEach(post => {
+    var participates = post.fetch().comments.map(comment => comment.author.name)
 
-    var posts = res.rows.map(post => post.post_id)
+    if (post.domain === 'gfycat.com' && ~post.url.indexOf('gifs/detail/') && !participates.includes(process.env.REDDIT_USERNAME)) {
+      console.log(chalk.red(chalk.bold('Found new post: ') + post.title + ' [/r/' + post.subreddit.display_name + ']'))
 
-    r.getNew('all').forEach(post => {
-      if (post.domain === 'gfycat.com' && ~post.url.indexOf('gifs/detail/') && !posts.includes(post.id)) {
-        console.log(chalk.red(chalk.bold('Found new post: ') + post.title + ' [/r/' + post.subreddit.display_name + ']'))
+      var proper = post.url.replace('gifs/detail/', '')
 
-        var proper = post.url.replace('gifs/detail/', '')
-
-        post.reply('[Proper Gfycat URL](' + proper + ') \n\n' + '^^I\'m ^^just ^^a ^^bot, ^^bleep, ^^bloop. [^^[Why?]](https://gist.github.com/ImJustToNy/cb3457e36f22123eb93864f0af639da3) [^^[Source ^^code]](https://github.com/ImJustToNy/GfycatDetailsConvert) ^^This ^^bot ^^is ^^a ^^merge ^^of ^^2 ^^bots ^^- ^^/u/gfy_cat_fixer_bot ^^and ^^/u/GfycatDetailsConvert').then(reply => {
-          client.query('INSERT INTO posts (post_id, comment_id) VALUES ($1, $2)', [post.id, reply.id], function (err) {
-            if (err) {
-              console.log('There was an error while trying to push new post into database', err)
-            }
-          })
+      post.reply('[Proper Gfycat URL](' + proper + ') \n\n' + '^^I\'m ^^just ^^a ^^bot, ^^bleep, ^^bloop. [^^[Why?]](https://gist.github.com/ImJustToNy/cb3457e36f22123eb93864f0af639da3) [^^[Source ^^code]](https://github.com/ImJustToNy/GfycatDetailsConvert) ^^This ^^bot ^^is ^^a ^^merge ^^of ^^2 ^^bots ^^- ^^/u/gfy_cat_fixer_bot ^^and ^^/u/GfycatDetailsConvert').then(reply => {
+        client.query('INSERT INTO posts (post_id, comment_id) VALUES ($1, $2)', [post.id, reply.id], function (err) {
+          if (err) {
+            console.log('There was an error while trying to push new post into database', err)
+          }
         })
-      }
-    })
+      })
+    }
   })
 }
 
-setInterval(checkForNewPosts, 5000)
+setInterval(checkForNewPosts, 15000)
