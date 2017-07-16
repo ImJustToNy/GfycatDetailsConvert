@@ -19,9 +19,7 @@ const r = new Snoowrap({
 
 function checkForNewPosts () {
   r.getNew('all').forEach(post => {
-    var participates = post.fetch().comments.map(comment => comment.author.name)
-
-    if (post.domain === 'gfycat.com' && ~post.url.indexOf('gifs/detail/') && !participates.includes(process.env.REDDIT_USERNAME)) {
+    if (post.domain === 'gfycat.com' && ~post.url.indexOf('gifs/detail/') && !post.fetch().comments.map(comment => comment.author.name).includes(process.env.REDDIT_USERNAME)) {
       console.log(chalk.red(chalk.bold('Found new post: ') + post.title + ' [/r/' + post.subreddit.display_name + ']'))
 
       var proper = post.url.replace('gifs/detail/', '')
