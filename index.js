@@ -1,6 +1,5 @@
 const chalk = require('chalk')
 const Snoowrap = require('snoowrap')
-const Client = require('pg').Client
 
 console.log(chalk.cyan.bold('GfycatDetailsConvert is booting up...'))
 
@@ -17,10 +16,6 @@ const r = new Snoowrap({
   username: process.env.REDDIT_USERNAME,
   password: process.env.REDDIT_PASSWORD
 })
-
-var client = new Client(process.env.DATABASE_URL + '?ssl=true')
-
-client.connect()
 
 function checkForNewPosts () {
   r.getNew('all').forEach(post => {
