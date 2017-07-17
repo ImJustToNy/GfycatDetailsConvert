@@ -17,7 +17,7 @@ const r = new Snoowrap({
   password: process.env.REDDIT_PASSWORD
 })
 
-function checkForNewPosts () {
+setInterval(function () {
   r.getNew('all').forEach(post => {
     if (post.domain === 'gfycat.com' && ~post.url.indexOf('gifs/detail/')) {
       post.fetch().comments.map(comment => comment.author.name).then(participants => {
@@ -29,6 +29,4 @@ function checkForNewPosts () {
       })
     }
   })
-}
-
-setInterval(checkForNewPosts, 15000)
+}, 15000)
