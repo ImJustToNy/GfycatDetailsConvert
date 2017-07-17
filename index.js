@@ -19,7 +19,7 @@ const r = new Snoowrap({
 
 setInterval(() => {
   r.getNew('all').forEach(post => {
-    if (post.domain === 'gfycat.com' && ~post.url.indexOf('gifs/detail/')) {
+    if (post.domain === 'gfycat.com' && post.url.includes('gifs/detail/')) {
       post.fetch().comments.map(comment => comment.author.name).then(participants => {
         if (!participants.includes(process.env.REDDIT_USERNAME)) {
           console.log(chalk.red(chalk.bold('Found new post: ') + post.title + ' [/r/' + post.subreddit.display_name + ']'))
