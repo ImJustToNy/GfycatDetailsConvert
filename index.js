@@ -20,15 +20,15 @@ const r = new Snoowrap({
 function checkForNewPosts () {
   r.getNew('all').forEach(post => {
     if (post.domain === 'gfycat.com' && ~post.url.indexOf('gifs/detail/')) {
-      if (!post.fetch().comments.map(comment => comment.author.name).includes(process.env.REDDIT_USERNAME)) {
-        console.log(chalk.red(chalk.bold('Found new post: ') + post.title + ' [/r/' + post.subreddit.display_name + ']'))
+      post.fetch().comments.map(comment => comment.author.name).then(participants => {
+        if (!participants.includes(process.env.REDDIT_USERNAME)) {
+          console.log(chalk.red(chalk.bold('Found new post: ') + post.title + ' [/r/' + post.subreddit.display_name + ']'))
 
-        var proper = post.url.replace('gifs/detail/', '')
-
-        post.reply('[Proper Gfycat URL](' + proper + ') \n\n' + '^^I\'m ^^just ^^a ^^bot, ^^bleep, ^^bloop. [^^[Why?]](https://gist.github.com/ImJustToNy/cb3457e36f22123eb93864f0af639da3) [^^[Source ^^code]](https://github.com/ImJustToNy/GfycatDetailsConvert) ^^This ^^bot ^^is ^^a ^^merge ^^of ^^2 ^^bots ^^- ^^/u/gfy_cat_fixer_bot ^^and ^^/u/GfycatDetailsConvert')
-      } else {
-        console.log(chalk.gray('Found bad url, but we already fixed it: ' + post.permalink))
-      }
+          post.reply('[Proper Gfycat URL](' + post.url.replace('gifs/detail/', '') + ') \n\n' + '^^I\'m ^^just ^^a ^^bot, ^^bleep, ^^bloop. [^^[Why?]](https://gist.github.com/ImJustToNy/cb3457e36f22123eb93864f0af639da3) [^^[Source ^^code]](https://github.com/ImJustToNy/GfycatDetailsConvert) ^^This ^^bot ^^is ^^a ^^merge ^^of ^^2 ^^bots ^^- ^^/u/gfy_cat_fixer_bot ^^and ^^/u/GfycatDetailsConvert')
+        } else {
+          console.log(chalk.gray('Found bad url, but we already fixed it: ' + post.permalink), participants, process.env.REDDIT_USERNAME)
+        }
+      })
     }
   })
 }
