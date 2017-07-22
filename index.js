@@ -17,6 +17,12 @@ const r = new Snoowrap({
   password: process.env.REDDIT_PASSWORD
 })
 
+r.config({
+  requestDelay: 1000,
+  continueAfterRatelimitError: true,
+  maxRetryAttempts: 5
+})
+
 setInterval(() => {
   r.getNew('all').forEach(post => {
     if (post.domain === 'gfycat.com' && post.url.includes('gifs/detail/')) {
