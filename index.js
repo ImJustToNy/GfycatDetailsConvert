@@ -3,6 +3,8 @@ const Snoowrap = require('snoowrap')
 
 console.log(chalk.cyan.bold('GfycatDetailsConvert is booting up...'))
 
+let lastChecked
+
 require('dotenv').config()
 
 if (typeof process.env.REDDIT_USERAGENT === 'undefined') {
@@ -24,7 +26,16 @@ r.config({
 })
 
 setInterval(() => {
-  r.getNew('all').forEach(post => {
+  const posts = r.getNew('all', {
+    before: lastChecked,
+    show: 'all'
+  })
+
+  if (posts.length > 0) {
+    lastChecked = posts[0].name
+  }
+
+  posts.forEach(post => {
     if (post.domain === 'gfycat.com' && post.url.includes('gifs/detail/')) {
       post.fetch().comments.map(comment => comment.author.name).then(participants => {
         if (!participants.includes(process.env.REDDIT_USERNAME)) {
