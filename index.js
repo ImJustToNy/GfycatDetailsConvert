@@ -20,7 +20,7 @@ const r = new Snoowrap({
 })
 
 r.config({
-  requestDelay: 1000,
+  requestDelay: 2000,
   continueAfterRatelimitError: true,
   maxRetryAttempts: 5
 })
