@@ -22,7 +22,8 @@ const r = new Snoowrap({
 r.config({
   requestDelay: 2000,
   continueAfterRatelimitError: true,
-  maxRetryAttempts: 5
+  maxRetryAttempts: 5,
+  debug: process.env.NODE_ENV != 'production'
 })
 
 setInterval(() => {
