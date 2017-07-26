@@ -28,25 +28,26 @@ r.config({
 })
 
 setInterval(() => {
-  const posts = r.getNew('all', {
+  r.getNew('all', {
     before: lastChecked,
-    show: 'all'
+    show: 'all',
+    amount: 1000
+  }).then(posts => {
+    if (posts.length > 0) {
+      lastChecked = posts[0].name
+
+      async.every(posts, (post, callback) => {
+        if (post.domain === 'gfycat.com' && post.url.includes('gifs/detail/')) {
+          post.fetch().comments.map(comment => comment.author.name).then(participants => {
+            callback(null, true)
+            if (!participants.includes(process.env.REDDIT_USERNAME)) {
+              console.log(chalk.red(chalk.bold('Found new post: ') + post.title + ' [/r/' + post.subreddit.display_name + ']'))
+
+              post.reply('[Proper Gfycat URL](' + post.url.replace('gifs/detail/', '') + ') \n\n' + '^^I\'m ^^just ^^a ^^bot, ^^bleep, ^^bloop. [^^[Why?]](https://gist.github.com/ImJustToNy/cb3457e36f22123eb93864f0af639da3) [^^[Source ^^code]](https://github.com/ImJustToNy/GfycatDetailsConvert)')
+            }
+          })
+        }
+      })
+    }
   })
-
-  if (posts.length > 0) {
-    lastChecked = posts[0].name
-
-    async.every(posts, (post, callback) => {
-      if (post.domain === 'gfycat.com' && post.url.includes('gifs/detail/')) {
-        post.fetch().comments.map(comment => comment.author.name).then(participants => {
-          callback(null, true)
-          if (!participants.includes(process.env.REDDIT_USERNAME)) {
-            console.log(chalk.red(chalk.bold('Found new post: ') + post.title + ' [/r/' + post.subreddit.display_name + ']'))
-
-            post.reply('[Proper Gfycat URL](' + post.url.replace('gifs/detail/', '') + ') \n\n' + '^^I\'m ^^just ^^a ^^bot, ^^bleep, ^^bloop. [^^[Why?]](https://gist.github.com/ImJustToNy/cb3457e36f22123eb93864f0af639da3) [^^[Source ^^code]](https://github.com/ImJustToNy/GfycatDetailsConvert)')
-          }
-        })
-      }
-    })
-  }
-}, 15000)
+}, 5000)
