@@ -1,5 +1,6 @@
 const chalk = require('chalk')
 const Snoowrap = require('snoowrap')
+const async = require('async')
 
 console.log(chalk.cyan.bold('GfycatDetailsConvert is booting up...'))
 
@@ -36,9 +37,10 @@ setInterval(() => {
     lastChecked = posts[0].name
   }
 
-  posts.forEach(post => {
+  async.every(posts, (post, callback) => {
     if (post.domain === 'gfycat.com' && post.url.includes('gifs/detail/')) {
       post.fetch().comments.map(comment => comment.author.name).then(participants => {
+        callback()
         if (!participants.includes(process.env.REDDIT_USERNAME)) {
           console.log(chalk.red(chalk.bold('Found new post: ') + post.title + ' [/r/' + post.subreddit.display_name + ']'))
 
