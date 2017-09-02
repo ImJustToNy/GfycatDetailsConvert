@@ -1,13 +1,15 @@
 {
   "name": "GfycatDetailsConvert",
   "version": "1.0.0",
+  "engines": {
+    "node": "8.4.x"
+  },
   "description": "Simply posts comment to proper gfycat URL",
   "main": "index.js",
   "repository": "https://github.com/ImJustToNy/GfycatDetailsConvert",
   "author": "ToNy <imtony@protonmail.com>",
   "license": "MIT",
   "dependencies": {
-    "async": "^2.5.0",
     "chalk": "^2.0.1",
     "dotenv": "^4.0.0",
     "snoowrap": "^1.14.1"
