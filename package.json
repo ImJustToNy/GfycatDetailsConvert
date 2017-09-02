@@ -1,6 +1,6 @@
 {
   "name": "GfycatDetailsConvert",
-  "version": "1.0.0",
+  "version": "1.2",
   "engines": {
     "node": "8.4.x"
   },
