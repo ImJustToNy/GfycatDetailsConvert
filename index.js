@@ -2,7 +2,9 @@ const Snoowrap = require('snoowrap')
 const dotenv = require('dotenv')
 const chalk = require('chalk')
 const path = require('path')
+const fs = require('fs')
 
+const showError = require(path.join(__dirname, '/lib/showError.js'))
 const urlChecker = require(path.join(__dirname, '/lib/urlChecker.js'))
 const makeComment = require(path.join(__dirname, '/lib/makeComment.js'))
 
@@ -11,8 +13,11 @@ console.log(chalk.cyan.bold('GfycatDetailsConvert is booting up...'))
 dotenv.config()
 
 if (!('REDDIT_USERAGENT' in process.env)) {
-  console.log(chalk.red.bold('Please fill your .env file. For more information, go here: https://github.com/ImJustToNy/GfycatDetailsConvert'))
-  process.exit(1)
+  showError('We wasn\'t able to find enviroment variables with credentials.')
+}
+
+if (!fs.existsSync('comment.tpl')) {
+  showError('We wasn\'t able to find comment.tpl file.')
 }
 
 const bot = new Snoowrap({
