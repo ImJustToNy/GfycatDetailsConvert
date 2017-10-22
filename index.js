@@ -1,12 +1,11 @@
 const Snoowrap = require('snoowrap')
 const dotenv = require('dotenv')
 const chalk = require('chalk')
-const path = require('path')
 const fs = require('fs')
 
-const showError = require(path.join(__dirname, '/lib/showError.js'))
-const urlChecker = require(path.join(__dirname, '/lib/urlChecker.js'))
-const makeComment = require(path.join(__dirname, '/lib/makeComment.js'))
+const showError = require('./lib/showError')
+const urlChecker = require('./lib/urlChecker')
+const makeComment = require('./lib/makeComment')
 
 console.log(chalk.cyan.bold('GfycatDetailsConvert is booting up...'))
 
